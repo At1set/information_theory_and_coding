@@ -47,13 +47,21 @@ def maxEntropia(N : int):
 
 
 def main():
+  infAmount = 0
+
+  print("--------------------------------------------------------")
   for i in range(1, expCount+1):
     messages = generateMessages(N)
 
+    exp_entropia = entropia(messages)
+    infAmount += exp_entropia
+
     print(f"Эксперимент №{i}")
-    print(f"Среднее количество информации в совокупности сообщений: {entropia(messages)}")
+    print(f"Среднее количество информации в совокупности сообщений: {exp_entropia}\n")
   
-  print(f"\nМаксимальная энтропия в ходе проведенных численных экспериментов: {maxEntropia(N)}")
+  print("--------------------------------------------------------")
+  print(f"Среднее количество информации в ходе проведенных численных экспериментов: {infAmount / expCount}")
+  print(f"Максимальная энтропия: {maxEntropia(N)}")
 
 
 if __name__ == "__main__":
