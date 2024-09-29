@@ -2,8 +2,15 @@
 from Message import Message
 from random import randint
 
+from typing import List
+import math
 
-def generateMessages(message_count):
+
+expCount = 8
+N = 50
+
+
+def generateMessages(message_count : int) -> List[Message]:
   messages = []
   chance_sum = 1
 
@@ -21,12 +28,33 @@ def generateMessages(message_count):
   return messages
 
 
-expCount = 8
-N = 50
+def printMessageChances(messages : List[Message], ndigits : int):
+  sorted_messages : List[Message]
+  sorted_messages = sorted(messages, key=lambda x: x.Chance, reverse=True)
+  for i, message in enumerate(sorted_messages):
+    print(f"Сообщение №{i+1}, шанс: {message.getStrChance(ndigits)}")
 
 
-messages = generateMessages(N)
+def entropia(messages : List[Message]):
+  result = 0
+  for message in messages:
+    result += message.Chance * math.log2(message.Chance)
+  return -result
 
 
-# def entropia(messages):
+def maxEntropia(N : int):
+  return math.log2(N)
+
+
+def main():
+  for i in range(1, expCount+1):
+    messages = generateMessages(N)
+
+    print(f"Эксперимент №{i}")
+    print(f"Среднее количество информации в совокупности сообщений: {entropia(messages)}")
   
+  print(f"\nМаксимальная энтропия в ходе проведенных численных экспериментов: {maxEntropia(N)}")
+
+
+if __name__ == "__main__":
+  main()
