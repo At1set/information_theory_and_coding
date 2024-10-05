@@ -55,6 +55,10 @@ def main():
   
   print(f"\nМаксимальная энтропия в ходе проведенных численных экспериментов: {maxEntropia(N)}")
 
+  choice = input("\nВведите 1 для показа вероятностей сгенерированных сообщений: ")
+  if (choice == "1"):
+    for message in messages: print(message.getStrChance(5))
+
 
 if __name__ == "__main__":
   main()
