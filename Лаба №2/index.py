@@ -1,5 +1,5 @@
-# Бацюра Илья Вариант №43
-from random import random, randint
+# Бацюра Илья, Вариант №43
+from random import randint, uniform
 from math import log2
 from pandas import DataFrame
 
@@ -11,9 +11,10 @@ exp_count = 10
 def generateMessages(message_count : int): # P(X)
   messages = []
   chance_sum = 1
+  remainder = chance_sum / message_count
 
   for _ in range(message_count-1):
-    message = random() * chance_sum
+    message = uniform(1e-5, remainder) * chance_sum
 
     chance_sum -= message
     messages.append(message)
@@ -27,14 +28,15 @@ def generateMessages(message_count : int): # P(X)
 def transitionMatrix(): # P(X / Y)
   matrix = [[0]*message_count for _ in range(message_count)] # Создание нулевой квадратной матрицы.
   y = 0
-  for i in range(0, len(matrix)):
+  for i in range(message_count):
     chance_sum = 1
     y = randint(70, 90) / 100
     chance_sum -= y
     matrix[i][i] = y
-    for j in range(0, len(matrix)):
+    remainder = chance_sum / (message_count-1)
+    for j in range(message_count):
       if i == j: continue
-      y = random() * chance_sum
+      y = uniform(0, remainder * 2) * chance_sum
       chance_sum -= y
       matrix[i][j] = y
     matrix[i][message_count-1] += chance_sum
