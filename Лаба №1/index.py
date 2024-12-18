@@ -28,13 +28,6 @@ def generateMessages(message_count : int) -> List[Message]:
   return messages
 
 
-def printMessageChances(messages : List[Message], ndigits : int):
-  sorted_messages : List[Message]
-  sorted_messages = sorted(messages, key=lambda x: x.Chance, reverse=True)
-  for i, message in enumerate(sorted_messages):
-    print(f"Сообщение №{i+1}, шанс: {message.getStrChance(ndigits)}")
-
-
 def entropia(messages : List[Message]):
   result = 0
   for message in messages:
@@ -47,17 +40,19 @@ def maxEntropia(N : int):
 
 
 def main():
+  generalInfCount = 0
+
   for i in range(1, expCount+1):
-    messages = generateMessages(N)
-
     print(f"Эксперимент №{i}")
+    messages = generateMessages(N)
+    print(f"Вероятности сгенерированных сообщений: {[message.getStrChance(5) for message in messages]}")
     print(f"Среднее количество информации в совокупности сообщений: {round(entropia(messages), 7)}")
-  
-  print(f"\nМаксимальная энтропия в ходе проведенных численных экспериментов: {round(maxEntropia(N), 7)}")
+    generalInfCount += entropia(messages)
+    print("\n")
+  generalInfCount /= expCount
 
-  choice = input("\nВведите 1 для показа вероятностей сгенерированных сообщений: ")
-  if (choice == "1"):
-    for message in messages: print(message.getStrChance(5))
+  print(f"\nМаксимальная энтропия в ходе проведенных численных экспериментов: {round(maxEntropia(N), 7)}")
+  print(f"Cреднее количество информации по экспериментам: {round(generalInfCount, 7)}")
 
 
 if __name__ == "__main__":

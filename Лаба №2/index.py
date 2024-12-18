@@ -14,7 +14,7 @@ def generateMessages(message_count : int): # P(X)
   remainder = chance_sum / message_count
 
   for _ in range(message_count-1):
-    message = uniform(1e-5, remainder) * chance_sum
+    message = remainder + (randint(-4000, 4000)*remainder*1e-5) * chance_sum
 
     chance_sum -= message
     messages.append(message)

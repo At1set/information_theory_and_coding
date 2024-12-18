@@ -1,10 +1,10 @@
 # Бацюра Илья, Вариант №43
-from random import uniform
+from random import uniform, randint
 from math import log2
 
 from pandas import DataFrame
 
-message_count = 42
+message_count = 50
 exp_count = 10
 
 
@@ -18,7 +18,7 @@ def generateMessages(message_count : int): # P(X)
   remainder = chance_sum / message_count
 
   for _ in range(message_count-1):
-    message = uniform(1e-5, remainder) * chance_sum
+    message = remainder + (randint(-4000, 4000)*remainder*1e-5) * chance_sum
 
     chance_sum -= message
     messages.append(message)
@@ -29,7 +29,7 @@ def generateMessages(message_count : int): # P(X)
   return messages
 
 
-def transitionMatrix(): # P(X / Y)
+def transitionMatrix(): # P(Y / Z)
   matrix = [[0]*message_count for _ in range(message_count)] # Создание нулевой квадратной матрицы.
   y = 0
   for i in range(message_count):
@@ -149,8 +149,8 @@ def main():
     
     t = transferSpeed(h_y, symb_time)
     c = C(message_count, symb_time)
-    print(f"\nСкорость передачи без помех: {t}бит/с")
-    print(f"Пропускная способность без помех: {c}бит/с \n")
+    print(f"\nСкорость передачи без помех: {round(t, 7)}бит/с")
+    print(f"Пропускная способность без помех: {round(c, 7)}бит/с \n")
     
     p_z = calculateOutputProbabilitys(p_y, transition_M) # P(Z)
     p_yz = inputAndOutputProbability(p_z, transition_M)  # P(Y, Z)
@@ -158,8 +158,8 @@ def main():
     
     t_with_inter = transferSpeedWithInterference(h_y, h_yz, symb_time)
     c_with_inter = C_withInterference(message_count, h_yz, symb_time)
-    print(f"Скорость передачи с помехами: {t_with_inter}бит/с")
-    print(f"Пропускная способность с помехами: {c_with_inter}бит/с\n")
+    print(f"Скорость передачи с помехами: {round(t_with_inter, 7)}бит/с")
+    print(f"Пропускная способность с помехами: {round(c_with_inter, 7)}бит/с\n")
     
     general_t += t
     general_c += c
